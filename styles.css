@@ -1,0 +1,12 @@
+body {
+    /* background-color: rgb(13, 13, 63); */
+    background-image: url('universe_wallpaper.jpg');
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    border: solid 2px red;
+}
