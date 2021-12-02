@@ -1,12 +1,15 @@
 const startButton = document.getElementById('start_button');
 const pauseButton = document.getElementById('pause_button');
+const playButton = document.getElementById('play_button');
 const canvas = document.getElementById('solar_system');
 let context = canvas.getContext('2d');
 
 startButton.addEventListener('click', start);
 pauseButton.addEventListener('click', pause);
+playButton.addEventListener('click', play);
 
 let isSimulation = false;
+let isPause = false;
 let drawInerval;
 
 let sun = {
@@ -49,12 +52,14 @@ function draw() {
         let years = 5;
         
         drawInerval = setInterval(() => {
-            drawSolarSystem(i);
-            if(i == 360*years) {
-                isSimulation=false;
-                clearInterval(drawInerval);
+            if (!isPause) {
+                drawSolarSystem(i);
+                if(i == 360*years) {
+                    isSimulation=false;
+                    clearInterval(drawInerval);
+                }
+                i++;
             }
-            i++;
         }, 20);
 
         // while (i <= 360*years) {
@@ -99,12 +104,22 @@ function start() {
     if (!isSimulation) {
         isSimulation = true;
         draw();
+    } else {
+        clearInterval(drawInerval);
+        isSimulation = true;
+        isPause = false;
+        draw();
     }
 }
 
 function pause() {
     if (isSimulation) {
-        isSimulation = false;
-        clearInterval(drawInerval);
+        isPause = true;
+    }
+}
+
+function play() {
+    if (isSimulation && isPause) {
+        isPause = false;
     }
 }
