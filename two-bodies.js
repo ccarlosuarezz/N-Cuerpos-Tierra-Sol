@@ -1,7 +1,7 @@
 const startButton = document.getElementById('start_button');
 const pauseButton = document.getElementById('pause_button');
-const canvas = document.getElementById('milky_way');
-let context = canvas.getContext('2d');
+const canvas = document.getElementById('solar_system');
+let context;
 
 startButton.addEventListener('click', start);
 pauseButton.addEventListener('click', pause);
@@ -44,12 +44,15 @@ function draw() {
         while (i < 360) {
             (function(ind) {
                 setTimeout(function(){
+                    context = canvas.getContext('2d');
                     context.clearRect(0, 0, canvas.width, canvas.height);
                     context.drawImage(sun.image, (canvas.width/2)-(sun.size/2), (canvas.height/2)-(sun.size/2), sun.size, sun.size);
                     
                     context.strokeStyle = '#3A98FE55';
                     context.lineWidth = 3;
+                    context.beginPath();
                     context.arc(canvas.width/2, canvas.height/2, 300, 0, 2 * Math.PI);
+                    context.closePath();
                     context.stroke();
                     isSimulation = true;
                     
@@ -59,15 +62,11 @@ function draw() {
                     let angle = ind;
                     let x = center_x + Math.cos(-angle*Math.PI/180) * distance;
                     let y = center_y + Math.sin(-angle*Math.PI/180) * distance;
-
+        
                     context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
-                    console.log(ind);
-                }, 1000 + (10 * ind));
+                }, 1000);
             })(i);
-            i++;
-            // if (i == 360) {
-            //     i = 0;
-            // }
+        i++
         }
     }
 }
