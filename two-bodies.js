@@ -4,9 +4,9 @@ const playButton = document.getElementById('play_button');
 const canvas = document.getElementById('solar_system');
 let context = canvas.getContext('2d');
 
-startButton.addEventListener('click', start);
-pauseButton.addEventListener('click', pause);
 playButton.addEventListener('click', play);
+pauseButton.addEventListener('click', pause);
+startButton.addEventListener('click', reset);
 
 let isSimulation = false;
 let isPause = false;
@@ -61,22 +61,6 @@ function draw() {
                 i++;
             }
         }, 20);
-
-        // while (i <= 360*years) {
-        //     if (i == 0) {
-        //         drawSolarSystem(i);
-        //     } else {
-        //         (function(ind) {
-        //             drawTimeOut = setTimeout(function(){
-        //                 drawSolarSystem(ind);
-        //                 if(ind == 360*years) {
-        //                     isSimulation= false;
-        //                 }
-        //             }, 10*ind);
-        //         })(i);
-        //     }
-        //     i++
-        // }
     }
 }
 
@@ -100,15 +84,12 @@ function drawSolarSystem(index) {
     context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
 }
 
-function start() {
-    if (!isSimulation) {
-        isSimulation = true;
-        draw();
-    } else {
-        clearInterval(drawInerval);
-        isSimulation = true;
+function reset() {
+    if (earth.isLoad && sun.isLoad) {
+        isSimulation = false;
         isPause = false;
-        draw();
+        clearInterval(drawInerval);
+        drawSolarSystem(0);
     }
 }
 
@@ -121,5 +102,8 @@ function pause() {
 function play() {
     if (isSimulation && isPause) {
         isPause = false;
+    }  else if (!isSimulation) {
+        isSimulation = true;
+        draw();
     }
 }
