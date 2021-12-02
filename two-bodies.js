@@ -7,7 +7,7 @@ startButton.addEventListener('click', start);
 pauseButton.addEventListener('click', pause);
 
 let isSimulation = false;
-let drawTimeOut;
+let drawInerval;
 
 let sun = {
     url: 'cool_sun.svg',
@@ -48,7 +48,7 @@ function draw() {
         let i = 1;
         let years = 5;
         
-        let drawInerval = setInterval(() => {
+        drawInerval = setInterval(() => {
             drawSolarSystem(i);
             if(i == 360*years) {
                 isSimulation=false;
@@ -105,6 +105,6 @@ function start() {
 function pause() {
     if (isSimulation) {
         isSimulation = false;
-        clearTimeout(drawTimeOut);
+        clearInterval(drawInerval);
     }
 }
