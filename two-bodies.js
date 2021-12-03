@@ -16,7 +16,7 @@ let sun = {
     url: 'cool_sun.svg',
     isLoad: false,
     mass: 0,
-    size: 200
+    size: 150
 }
 sun.image = new Image();
 sun.image.src = sun.url;
@@ -26,7 +26,7 @@ let earth = {
     url: 'kawaii_earth.svg',
     isLoad: false,
     mass: 0,
-    size: 100
+    size: 50
 }
 earth.image = new Image();
 earth.image.src = earth.url;
@@ -70,18 +70,48 @@ function drawSolarSystem(index) {
     
     context.strokeStyle = '#3A98FE55';
     context.lineWidth = 3;
+
+    // context.beginPath();
+    // context.arc(canvas.width/2, canvas.height/2, 300, 0, 2 * Math.PI);
+    // context.closePath();
+    // context.stroke();
+    
     context.beginPath();
-    context.arc(canvas.width/2, canvas.height/2, 300, 0, 2 * Math.PI);
+    context.ellipse(canvas.width/2, canvas.height/2, 300, 200, 0, 0, 2 * Math.PI);
     context.closePath();
     context.stroke();
     
-    let center_x = canvas.width/2;
-    let center_y = canvas.height/2;
+    
+    let centerX = canvas.width/2;
+    let centerY = canvas.height/2;
     let distance = 300;
     let angle = index;
-    let x = center_x + Math.cos(-angle*Math.PI/180) * distance;
-    let y = center_y + Math.sin(-angle*Math.PI/180) * distance;
+    let x = centerX + Math.cos(-angle*Math.PI/180) * distance;
+    let y = centerY + Math.sin(-angle*Math.PI/180) * distance;
+    // context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
+    let distanceX = 300;
+    let distanceY = 200;
+    let angleInRadians = angle * (Math.PI / 180);
+    // let xx = distanceX * Math.cos(angle);
+    x = centerX + (distanceX * Math.cos(angleInRadians));
+    y = centerY + (distanceY * Math.sin(angleInRadians));
     context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
+
+}
+
+function play() {
+    if (isSimulation && isPause) {
+        isPause = false;
+    }  else if (!isSimulation) {
+        isSimulation = true;
+        draw();
+    }
+}
+
+function pause() {
+    if (isSimulation) {
+        isPause = true;
+    }
 }
 
 function reset() {
@@ -93,17 +123,6 @@ function reset() {
     }
 }
 
-function pause() {
-    if (isSimulation) {
-        isPause = true;
-    }
-}
 
-function play() {
-    if (isSimulation && isPause) {
-        isPause = false;
-    }  else if (!isSimulation) {
-        isSimulation = true;
-        draw();
-    }
-}
+//setInterval
+//https://stackoverflow.com/questions/37356597/updating-the-millisecond-parameter-of-setinterval-function-in-javascript/37356893
