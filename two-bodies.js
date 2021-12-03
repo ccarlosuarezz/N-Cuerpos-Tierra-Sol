@@ -1,3 +1,5 @@
+
+
 const startButton = document.getElementById('start_button');
 const pauseButton = document.getElementById('pause_button');
 const playButton = document.getElementById('play_button');
@@ -14,12 +16,13 @@ let speed = 10;
 let drawInerval;
 let orbitWidth = 300;
 let orbitHeight = 200;
+let sunDesphase = orbitWidth*0.07;
 
 let sun = {
     url: 'cool_sun.svg',
     isLoad: false,
     mass: 0,
-    size: 200
+    size: 100
 }
 sun.image = new Image();
 sun.image.src = sun.url;
@@ -29,7 +32,7 @@ let earth = {
     url: 'kawaii_earth.svg',
     isLoad: false,
     mass: 0,
-    size: 70
+    size: 40
 }
 earth.image = new Image();
 earth.image.src = earth.url;
@@ -60,14 +63,14 @@ function draw() {
             if (!isPause && !isDelay) {
                 let distanceBetwenSunAndEarth = drawSolarSystem(i);
                 isDelay = true;
-                diference = Math.floor((distanceBetwenSunAndEarth * speed / orbitHeight) - speed);
+                diference = Math.round((distanceBetwenSunAndEarth * speed / orbitHeight) - speed);
                 if(i == 360*years) {
                     isSimulation=false;
                     clearInterval(drawInerval);
                 }
                 i++;
             } else if (isDelay) {
-                if (diference == 0) {
+                if (diference <= 0) {
                     isDelay = false;
                 }
                 diference--;
@@ -81,13 +84,15 @@ function drawSolarSystem(index) {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     //Dibujar sol
-    context.drawImage(sun.image, (canvas.width/2)-(sun.size/2), (canvas.height/2)-(sun.size/2), sun.size, sun.size);
+    context.drawImage(sun.image, (canvas.width/2)-(sun.size/2)+sunDesphase, (canvas.height/2)-(sun.size/2), sun.size, sun.size);
     
     //Dibujar orbita
     context.strokeStyle = '#3A98FE55';
     context.lineWidth = 3;
     context.beginPath();
     context.ellipse(canvas.width/2, canvas.height/2, orbitWidth, orbitHeight, 0, 0, 2 * Math.PI);
+    // context.moveTo(canvas.width/2, 0);
+    // context.lineTo(canvas.width/2, canvas.height);
     context.closePath();
     context.stroke();
     
@@ -101,7 +106,7 @@ function drawSolarSystem(index) {
     context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
 
     //Retornar distancia entre el sol y la tierra
-    return Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+    return Math.sqrt((Math.pow(x - (centerX + sunDesphase), 2)) + Math.pow(y - centerY, 2));
 }
 
 function play() {
