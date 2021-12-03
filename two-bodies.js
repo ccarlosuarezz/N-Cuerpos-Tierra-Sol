@@ -10,13 +10,16 @@ startButton.addEventListener('click', reset);
 
 let isSimulation = false;
 let isPause = false;
+let speed = 10;
 let drawInerval;
+let orbitWidth = 300;
+let orbitHeight = 200;
 
 let sun = {
     url: 'cool_sun.svg',
     isLoad: false,
     mass: 0,
-    size: 150
+    size: 200
 }
 sun.image = new Image();
 sun.image.src = sun.url;
@@ -26,7 +29,7 @@ let earth = {
     url: 'kawaii_earth.svg',
     isLoad: false,
     mass: 0,
-    size: 50
+    size: 70
 }
 earth.image = new Image();
 earth.image.src = earth.url;
@@ -49,44 +52,56 @@ function loadEarth() {
 function draw() {
     if (earth.isLoad && sun.isLoad) {
         let i = 1;
-        let years = 5;
+        let years = 10;
+        let isDelay = false;
+        let diference = 0;
         
         drawInerval = setInterval(() => {
-            if (!isPause) {
-                drawSolarSystem(i);
+            if (!isPause && !isDelay) {
+                let distanceBetwenSunAndEarth = drawSolarSystem(i);
+                isDelay = true;
+                diference = Math.floor((distanceBetwenSunAndEarth * speed / orbitHeight) - speed);
                 if(i == 360*years) {
                     isSimulation=false;
                     clearInterval(drawInerval);
                 }
                 i++;
+            } else if (isDelay) {
+                if (diference == 0) {
+                    isDelay = false;
+                }
+                diference--;
             }
-        }, 20);
+        }, speed);
     }
 }
 
 function drawSolarSystem(index) {
+    //Limpiar canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
+
+    //Dibujar sol
     context.drawImage(sun.image, (canvas.width/2)-(sun.size/2), (canvas.height/2)-(sun.size/2), sun.size, sun.size);
     
+    //Dibujar orbita
     context.strokeStyle = '#3A98FE55';
     context.lineWidth = 3;
-    
     context.beginPath();
-    context.ellipse(canvas.width/2, canvas.height/2, 300, 200, 0, 0, 2 * Math.PI);
+    context.ellipse(canvas.width/2, canvas.height/2, orbitWidth, orbitHeight, 0, 0, 2 * Math.PI);
     context.closePath();
     context.stroke();
     
-    
+    //Dibujar tierra
     let centerX = canvas.width/2;
     let centerY = canvas.height/2;
     let angle = index;
-    let distanceX = 300;
-    let distanceY = 200;
     let angleInRadians = angle * (Math.PI / 180);
-    let x = centerX + (distanceX * Math.cos(angleInRadians));
-    let y = centerY + (distanceY * Math.sin(angleInRadians));
+    let x = centerX + (orbitWidth * Math.cos(angleInRadians));
+    let y = centerY + (orbitHeight * Math.sin(angleInRadians));
     context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
 
+    //Retornar distancia entre el sol y la tierra
+    return Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
 }
 
 function play() {
