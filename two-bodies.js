@@ -70,11 +70,6 @@ function drawSolarSystem(index) {
     
     context.strokeStyle = '#3A98FE55';
     context.lineWidth = 3;
-
-    // context.beginPath();
-    // context.arc(canvas.width/2, canvas.height/2, 300, 0, 2 * Math.PI);
-    // context.closePath();
-    // context.stroke();
     
     context.beginPath();
     context.ellipse(canvas.width/2, canvas.height/2, 300, 200, 0, 0, 2 * Math.PI);
@@ -84,17 +79,12 @@ function drawSolarSystem(index) {
     
     let centerX = canvas.width/2;
     let centerY = canvas.height/2;
-    let distance = 300;
     let angle = index;
-    let x = centerX + Math.cos(-angle*Math.PI/180) * distance;
-    let y = centerY + Math.sin(-angle*Math.PI/180) * distance;
-    // context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
     let distanceX = 300;
     let distanceY = 200;
     let angleInRadians = angle * (Math.PI / 180);
-    // let xx = distanceX * Math.cos(angle);
-    x = centerX + (distanceX * Math.cos(angleInRadians));
-    y = centerY + (distanceY * Math.sin(angleInRadians));
+    let x = centerX + (distanceX * Math.cos(angleInRadians));
+    let y = centerY + (distanceY * Math.sin(angleInRadians));
     context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
 
 }
@@ -122,7 +112,3 @@ function reset() {
         drawSolarSystem(0);
     }
 }
-
-
-//setInterval
-//https://stackoverflow.com/questions/37356597/updating-the-millisecond-parameter-of-setinterval-function-in-javascript/37356893
