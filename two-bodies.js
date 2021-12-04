@@ -41,8 +41,10 @@ let orbitWidth = 300000000;
 let orbitHeight = 250000000;
 let orbitWidthDraw = orbitWidth/ORBIT_SCALE;
 let orbitHeightDraw = orbitHeight/ORBIT_SCALE;
-// let sunDesphase = orbitWidthDraw*0.0084; //Escala real
-let sunDesphase = orbitWidthDraw*0.3; //Escala ajustada
+//let sunDesphase = orbitWidth*0.0084; //Escala real
+//let sunDesphaseDraw = orbitWidthDraw*0.0084; //Escala real
+let sunDesphase = orbitWidth * 0.3; //Escala ajustada
+let sunDesphaseDraw = orbitWidthDraw * 0.3; //Escala ajustada
 let years = 1;
 let simulationTime = 10;
 
@@ -128,7 +130,7 @@ function drawSolarSystem(index) {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     //Dibujar sol
-    context.drawImage(sun.image, (canvas.width/2)-(sun.size/2)+sunDesphase, (canvas.height/2)-(sun.size/2), sun.size, sun.size);
+    context.drawImage(sun.image, (canvas.width/2)-(sun.size/2)+sunDesphaseDraw, (canvas.height/2)-(sun.size/2), sun.size, sun.size);
     
     //Dibujar orbita
     context.strokeStyle = '#3A98FE55';
@@ -149,7 +151,7 @@ function drawSolarSystem(index) {
     let y = centerY + (orbitHeightDraw * Math.cos(angleInRadians));
     context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
 
-    let distanceBetwenSunEarth = Math.sqrt((Math.pow(x - (centerX + sunDesphase), 2)) + Math.pow(y - centerY, 2));
+    let distanceBetwenSunEarth = Math.sqrt((Math.pow(x - (centerX + sunDesphaseDraw), 2)) + Math.pow(y - centerY, 2));
 
     if (distanceBetwenSunEarth - ((sun.size/4) + (earth.size/2)) <= 0) {
         console.log('boom');
@@ -223,11 +225,10 @@ function resetInfo() {
 
 function resetInfoInSimulation(distanceBetwenSunEarth) {
     pEarthSpeed.innerHTML = `Velocidad Tierra: ${speed} km/s`;
-
-    pGravity.innerHTML = `Fuerza de atracción: ${calculateGravityForce(distanceBetwenSunEarth)} N`;
+    pGravity.innerHTML = `Fuerza de atracción: ${calculateGravityForce(distanceBetwenSunEarth*ORBIT_SCALE/2)} N`;
 }
 
 function calculateGravityForce(distanceBetwenSunEarth) {
-    let r = ((distanceBetwenSunEarth*ORBIT_SCALE) / 2) * METERS_IN_KM;
+    let r = distanceBetwenSunEarth * METERS_IN_KM;
     return GRAVITY_CONSTANT * ((sun.mass * earth.mass) / (r * r));
 }
