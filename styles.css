@@ -80,3 +80,27 @@ button {
 .reset {
     background: var(--red-color);
 }
+
+.parameters {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+    padding: 20px;
+    font-size: 15px;
+}
+
+.parameters p {
+    margin: 2px;
+}
+
+.p_earth {
+    color: var(--green-color);
+}
+
+.p_sun {
+    color: var(--yellow-color);
+}
+
+.params {
+    color: var(--red-color);
+}
