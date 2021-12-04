@@ -45,6 +45,19 @@ body {
     align-items: center;
 }
 
+.form_years {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form_years p {
+    color: white;
+    margin: 2px;
+}
+
 input {
     width: 150px;
     font-size: 20px;
@@ -61,7 +74,7 @@ input {
 }
 
 button {
-    width: 100px;
+    width: 120px;
     border-radius: 10px;
     border: none;
     font-size: 20px;
