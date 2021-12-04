@@ -15,8 +15,9 @@ let isPause = false;
 let speed = 10;
 let drawInerval;
 let orbitWidth = 300;
-let orbitHeight = 200;
-let sunDesphase = orbitWidth*0.07;
+let orbitHeight = 250;
+// let sunDesphase = orbitWidth*0.0084;
+let sunDesphase = orbitWidth*0.3;
 
 let sun = {
     url: 'cool_sun.svg',
@@ -54,7 +55,7 @@ function loadEarth() {
 
 function draw() {
     if (earth.isLoad && sun.isLoad) {
-        let i = 1;
+        let i = 0;
         let years = 10;
         let isDelay = false;
         let diference = 0;
@@ -99,10 +100,10 @@ function drawSolarSystem(index) {
     //Dibujar tierra
     let centerX = canvas.width/2;
     let centerY = canvas.height/2;
-    let angle = index;
+    let angle = index+90;
     let angleInRadians = angle * (Math.PI / 180);
-    let x = centerX + (orbitWidth * Math.cos(angleInRadians));
-    let y = centerY + (orbitHeight * Math.sin(angleInRadians));
+    let x = centerX + (orbitWidth * Math.sin(angleInRadians));
+    let y = centerY + (orbitHeight * Math.cos(angleInRadians));
     context.drawImage(earth.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
 
     //Retornar distancia entre el sol y la tierra
