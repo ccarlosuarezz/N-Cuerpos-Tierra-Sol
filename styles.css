@@ -84,6 +84,8 @@ button {
 .parameters {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
     column-gap: 20px;
     padding: 20px;
     font-size: 15px;
@@ -91,6 +93,7 @@ button {
 
 .parameters p {
     margin: 2px;
+    text-align: center;
 }
 
 .p_earth {
