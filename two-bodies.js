@@ -4,7 +4,9 @@ const inputEarthDiameter = document.getElementById('earth_diameter');
 const inputSunDiameter = document.getElementById('sun_diameter');
 const inputOrbitWidth = document.getElementById('orbit_width');
 const inputOrbitHeight = document.getElementById('orbit_height');
+const inputEarthSpeed = document.getElementById('earth_speed');
 const inputYears = document.getElementById('years');
+const checkSunDesphase = document.getElementById('checkSunDesphase');
 
 const pMassEarth = document.getElementById('pMassEarth');
 const pMassSun = document.getElementById('pMassSun');
@@ -12,6 +14,7 @@ const pDiameterEarth = document.getElementById('pDiameterEarth');
 const pDiameterSun = document.getElementById('pDiameterSun');
 const pOrbitWidth = document.getElementById('pOrbitWidth');
 const pOrbitHeight = document.getElementById('pOrbitHeight');
+const pAvgEarthSpeed = document.getElementById('pAvgEarthSpeed');
 const pYears = document.getElementById('pYears');
 const pEarthSpeed = document.getElementById('pEarthSpeed')
 const pGravity = document.getElementById('pGravity')
@@ -35,16 +38,14 @@ startButton.addEventListener('click', reset);
 
 let isSimulation = false;
 let isPause = false;
-let speed = 10;
+let avgSpeed = 29.8;
 let drawInerval;
 let orbitWidth = 300000000;
 let orbitHeight = 250000000;
 let orbitWidthDraw = orbitWidth/ORBIT_SCALE;
 let orbitHeightDraw = orbitHeight/ORBIT_SCALE;
-//let sunDesphase = orbitWidth*0.0084; //Escala real
-//let sunDesphaseDraw = orbitWidthDraw*0.0084; //Escala real
-let sunDesphase = orbitWidth * 0.3; //Escala ajustada
-let sunDesphaseDraw = orbitWidthDraw * 0.3; //Escala ajustada
+let sunDesphase = orbitWidth*0.0084; //Escala real
+let sunDesphaseDraw = orbitWidthDraw*0.0084; //Escala real
 let years = 1;
 let simulationTime = 10;
 
@@ -108,8 +109,8 @@ function draw() {
             if (!isPause && !isDelay) {
                 let distanceBetwenSunAndEarth = drawSolarSystem(i);
                 isDelay = true;
-                diference = Math.round((distanceBetwenSunAndEarth * speed / orbitHeightDraw) - speed);
-                resetInfoInSimulation(distanceBetwenSunAndEarth);
+                diference = Math.round((distanceBetwenSunAndEarth * avgSpeed / orbitHeightDraw) - avgSpeed);
+                resetInfoInSimulation(calculateEarthSpeed(distanceBetwenSunAndEarth), distanceBetwenSunAndEarth);
                 if(i == 360*years) {
                     isSimulation=false;
                     clearInterval(drawInerval);
@@ -121,7 +122,7 @@ function draw() {
                 }
                 diference--;
             }
-        }, speed);
+        }, avgSpeed);
     }
 }
 
@@ -204,7 +205,17 @@ function reset() {
             orbitHeight = inputOrbitHeight.value;
             orbitHeightDraw = orbitHeight/ORBIT_SCALE;
         }
+
+        if (inputEarthSpeed.value) {avgSpeed = inputEarthSpeed.value}
         if (inputYears.value) {years = inputYears.value}
+
+        if (checkSunDesphase.checked) {
+            sunDesphase = orbitWidth * 0.3; //Escala ajustada
+            sunDesphaseDraw = orbitWidthDraw * 0.3; //Escala ajustada
+        } else {
+            sunDesphase = orbitWidth * 0.0084; //Escala 'real'
+            sunDesphaseDraw = orbitWidthDraw * 0.0084; //Escala 'real
+        }
 
         drawSolarSystem(0);
 
@@ -219,16 +230,20 @@ function resetInfo() {
     pDiameterSun.innerHTML = `Diametro Sol: ${sun.diameter} km`;
     pOrbitWidth.innerHTML = `Ancho de orbita: ${orbitWidth} km`;
     pOrbitHeight.innerHTML = `Alto de orbita: ${orbitHeight} km`;
+    pAvgEarthSpeed.innerHTML = `Velocidad media Tierra: ${avgSpeed} km/s`
     pYears.innerHTML = `Años a simular: ${years}`;
-    pGravity.innerHTML = `Fuerza de atracción: 0 N`;
 }
 
-function resetInfoInSimulation(distanceBetwenSunEarth) {
-    pEarthSpeed.innerHTML = `Velocidad Tierra: ${speed} km/s`;
+function resetInfoInSimulation(earthSpeed, distanceBetwenSunEarth) {
+    pEarthSpeed.innerHTML = `Velocidad Tierra: ${earthSpeed.toFixed(3)} km/s`;
     pGravity.innerHTML = `Fuerza de atracción: ${calculateGravityForce(distanceBetwenSunEarth*ORBIT_SCALE/2)} N`;
 }
 
 function calculateGravityForce(distanceBetwenSunEarth) {
     let r = distanceBetwenSunEarth * METERS_IN_KM;
     return GRAVITY_CONSTANT * ((sun.mass * earth.mass) / (r * r));
+}
+
+function calculateEarthSpeed(distanceBetwenSunEarth) {
+    return (avgSpeed * (distanceBetwenSunEarth/2 * ORBIT_SCALE)) / (orbitWidth/2);
 }

@@ -11,6 +11,14 @@
     <div class="form_container">
         <div class="form_inputs">
             <div>
+                <p><strong>Ancho de orbita (km)</strong></p>
+                <input type="number" name="" id="orbit_width">
+            </div>
+            <div>
+                <p><strong>Alto de orbita (km)</strong></p>
+                <input type="number" name="" id="orbit_height">
+            </div>
+            <div>
                 <p><strong>Masa Tierra (x10<sup>24</sup> kg)</strong></p>
                 <input type="number" name="" id="earth_mass">
             </div>
@@ -27,17 +35,17 @@
                 <input type="number" name="" id="sun_diameter">
             </div>
             <div>
-                <p><strong>Ancho de orbita (km)</strong></p>
-                <input type="number" name="" id="orbit_width">
+                <p><strong>Velocidad media Tierra</strong></p>
+                <input type="number" name="" id="earth_speed">
             </div>
             <div>
-                <p><strong>Alto de orbita (km)</strong></p>
-                <input type="number" name="" id="orbit_height">
+                <p><strong>Años a simular</strong></p>
+                <input type="number" name="" id="years">
             </div>
         </div>
         <div class="form_years">
-            <p><strong>Años a simular</strong></p>
-            <input type="number" name="" id="years">
+            <input type="checkbox" name="" id="checkSunDesphase" class="check">
+            <label for="checkSunDesphase"><strong>Desplazar Sol</strong></label>
         </div>
         <div class="buttons_container">
             <button id="play_button" class="play"><strong>Iniciar</strong></button>
@@ -51,7 +59,8 @@
             <p class="p_sun"><strong id="pDiameterSun">Diametero Sol: 0</strong></p>
             <p class="params"><strong id="pOrbitWidth">Ancho de orbita: 0 km</strong></p>
             <p class="params"><strong id="pOrbitHeight">Alto de orbita: 0 km</strong></p>
-            <p class="params"><strong id="pYears">Años: 0</strong></p>
+            <p class="params"><strong id="pAvgEarthSpeed">Velocidad media Tierra: 0 km/s</strong></p>
+            <p class="params"><strong id="pYears">Años a simular: 0</strong></p>
         </div>
         <div>
             <p class="params"><strong id="pEarthSpeed">Velocidad Tierra: 0 km/s</strong></p>
