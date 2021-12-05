@@ -154,7 +154,7 @@ function drawSolarSystem(index) {
 
     let distanceBetwenSunEarth = Math.sqrt((Math.pow(x - (centerX + sunDesphaseDraw), 2)) + Math.pow(y - centerY, 2));
 
-    if (distanceBetwenSunEarth - ((sun.size/4) + (earth.size/2)) <= 0) {
+    if (distanceBetwenSunEarth - ((sun.size/3) + (earth.size/2)) <= 0) {
         console.log('boom');
         context.drawImage(explosion.image, x-(earth.size/2), y-(earth.size/2), earth.size, earth.size);
         clearInterval(drawInerval);
@@ -241,7 +241,7 @@ function resetInfoInSimulation(earthSpeed, distanceBetwenSunEarth) {
 
 function calculateGravityForce(distanceBetwenSunEarth) {
     let r = distanceBetwenSunEarth * METERS_IN_KM;
-    return GRAVITY_CONSTANT * ((sun.mass * earth.mass) / (r * r));
+    return GRAVITY_CONSTANT * (((sun.mass * Math.pow(10, 24)) * (earth.mass * Math.pow(10, 30))) / (r * r));
 }
 
 function calculateEarthSpeed(distanceBetwenSunEarth) {
