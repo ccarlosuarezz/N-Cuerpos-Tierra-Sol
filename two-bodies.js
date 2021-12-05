@@ -245,5 +245,8 @@ function calculateGravityForce(distanceBetwenSunEarth) {
 }
 
 function calculateEarthSpeed(distanceBetwenSunEarth) {
-    return (avgSpeed * (distanceBetwenSunEarth/2 * ORBIT_SCALE)) / (orbitWidth/2);
+    console.log();
+    let distanceBetweenSunEarthRealScale = distanceBetwenSunEarth / 2 * ORBIT_SCALE;
+    let inverseDistance = orbitWidth -  distanceBetweenSunEarthRealScale;
+    return (avgSpeed * inverseDistance) / (orbitWidth / 2);
 }
